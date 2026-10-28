@@ -1,0 +1,4 @@
+opcua
+cryptography
+requests
+fastapi
