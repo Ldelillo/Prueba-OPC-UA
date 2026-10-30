@@ -1,0 +1,13 @@
+services:
+
+  opcua-weather:
+
+    build: .
+
+    container_name: opcua-weather
+
+    ports:
+      - "4840:4840"
+      - "8000:8000"
+
+    restart: unless-stopped
