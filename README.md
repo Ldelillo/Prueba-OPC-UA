@@ -1,6 +1,5 @@
 Prueba OPC-UA
 Descripción
-
 Proyecto de aprendizaje y experimentación con OPC-UA utilizando Python y AsyncUA.
 
 El objetivo es simular un pequeño sistema industrial capaz de:
@@ -12,27 +11,26 @@ Almacenar histórico mediante Historical Access.
 Permitir modificaciones mediante API REST (FastAPI).
 Ejecutarse de forma contenerizada mediante Docker.
 Arquitectura
-Plain Text
-┌─────────────┐
-│ Open-Meteo │
-└──────┬──────┘
-│
-▼
-┌──────────────────┐
-│ FastAPI + AsyncUA│
-└──────┬───────────┘
-│
-┌────────────┴────────────┐
-▼ ▼
-┌──────────────┐ ┌────────────────┐
-│ OPC-UA │ │ Historical │
-│ Real-Time │ │ Access │
-└──────┬───────┘ └────────────────┘
-│
-▼
+                 ┌─────────────┐
+                 │ Open-Meteo  │
+                 └──────┬──────┘
+                        │
+                        ▼
+             ┌──────────────────┐
+             │ FastAPI + AsyncUA│
+             └──────┬───────────┘
+                    │
+       ┌────────────┴────────────┐
+       ▼                         ▼
+┌──────────────┐        ┌────────────────┐
+│ OPC-UA       │        │ Historical     │
+│ Real-Time    │        │ Access         │
+└──────┬───────┘        └────────────────┘
+       │
+       ▼
 ┌──────────────┐
 │ Matrikon OPC │
-│ UA Explorer │
+│ UA Explorer  │
 └──────────────┘
 Tecnologías utilizadas
 Python 3.13
@@ -46,106 +44,94 @@ Docker Compose
 Matrikon OPC UA Explorer
 Funcionalidades implementadas
 Servidor OPC-UA
-
 Exposición de variables meteorológicas en tiempo real:
 
-Plain Text
 Objects
 └── TiempoReal
-├── Coordenadas
-├── Temperatura
-├── Humedad
-├── Presion
-└── Viento
+    ├── Coordenadas
+    ├── Temperatura
+    ├── Humedad
+    ├── Presion
+    └── Viento
 Integración Open-Meteo
-
 Obtención periódica de:
 
 Temperatura
 Humedad relativa
 Presión atmosférica
 Velocidad del viento
-
 a partir de unas coordenadas configurables.
 
 Historical Access
-
 Historización de variables OPC-UA mediante:
 
-Python
 historize_node_data_change()
-
 Variables historizadas:
 
 Temperatura
 Humedad
 Presión
 Viento
-
 Compatible con la función Historic Access View de Matrikon OPC UA Explorer.
 
 API REST
-
 Actualización dinámica de coordenadas mediante:
 
-HTTP
 PUT /update_coordinates
-
 Ejemplo:
 
-JSON
 {
-"lat": 40.4168,
-"lon": -3.7038
+  "lat": 40.4168,
+  "lon": -3.7038
 }
 Docker
-
 Despliegue mediante contenedor Docker.
 
 Puertos utilizados:
 
-Servicio	PuertoOPC-UA	4840
+Servicio	Puerto
+OPC-UA	4840
 FastAPI	8000
 Instalación local
 Clonar repositorio
-Shell
 git clone https://github.com/Ldelillo/Prueba-OPC-UA.git
- 
+
 cd Prueba-OPC-UA
 Instalar dependencias
-Shell
 pip install -r requirements.txt
 Ejecutar servidor
-Shell
 python OPC_Server.py
 Ejecución con Docker
-Construcción
-Shell
+Construcción de la imagen
 docker build -t opcua-weather .
-Ejecución
-Shell
+Ejecución mediante Docker Compose
 docker compose up -d
- 
 Ver logs
-Shell
 docker compose logs -f
+Detener el servicio
+docker compose down
 Conexión OPC-UA
-
 Desde Matrikon OPC UA Explorer:
 
-Plain Text
 opc.tcp://localhost:4840
 Acceso a FastAPI
+Documentación Swagger:
 
-Swagger:
-
-Plain Text
 http://localhost:8000/docs
+Estructura del proyecto
+Prueba-OPC-UA/
+│
+├── OPC_Server.py
+├── OP_Client.py
+├── parser.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 Objetivos de aprendizaje
-
 Este proyecto ha sido desarrollado con fines formativos para comprender:
 
-Modelado de information models OPC-UA.
+Modelado de Information Models OPC-UA.
 Lectura y escritura de nodos.
 Historical Access.
 Integración de fuentes de datos externas.
@@ -158,4 +144,6 @@ Alarmas y eventos OPC-UA.
 Persistencia histórica en CSV o SQLite.
 Gestión de múltiples ubicaciones simultáneas.
 Seguridad OPC-UA mediante certificados.
-Despliegue en entorno cloud.
+Despliegue en entornos cloud.
+Autor
+Proyecto desarrollado por Lucas Lillo como laboratorio de aprendizaje de OPC-UA, FastAPI, Docker e integración con APIs externas.
